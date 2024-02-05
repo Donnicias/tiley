@@ -1,34 +1,33 @@
 <template>
     <div>
-        <!-- Upload Button -->
-        <input type="file" ref="fileInput" @change="uploadImage" accept="image/*" />
-
-        <!-- Image Slot -->
-        <VueDraggableResizable
-            v-if="image"
-            :x="image.x"
-            :y="image.y"
-            :w="image.width"
-            :h="image.height"
-            :parent="true"
-            :bounds="{ left: 0, top: 0, right: slotWidth, bottom: slotHeight }"
-            :isResizable="true"
-        >
-            <img :src="image.uri" alt="Collage Image" class="collage-image" />
-        </VueDraggableResizable>
-
-        <!-- Progress Dialog -->
-        <div v-if="uploading" class="progress-dialog">
+        <div v-if="uploading" class="progress-dialog bg-primary text-white">
             Uploading... {{ uploadProgress }}%
         </div>
-
-        <!-- Save Button -->
-        <button @click="saveImage">Save</button>
-
-        <div style="height: 500px; width: 500px; border: 1px solid red; position: relative;">
-            <vue-draggable-resizable :w="100" :h="100" :parent="true" :isResizable="true">
-                <p>Hello! I'm a flexible component. You can drag me around and you can resize me.</p>
-            </vue-draggable-resizable>
+        <div class="btn-group float-end" role="group" aria-label="Basic mixed styles example">
+            <input v-if="!image" type="file" ref="fileInput" @change="uploadImage" class="btn btn-outline-primary" accept="image/*" />
+            <button v-if="image" type="button" class="btn btn-danger" @click="image=null">Delete</button>
+            <button v-if="image" type="button" class="btn btn-warning" @click="saveImage">Save</button>
+        </div>
+        <br/>
+        <div class="row p-0 m-0" style="height: 800px; width:100% !important; margin: auto; padding: 0 !important;">
+            <div class="col-md-12 border-1 border-black p-0 m-0" style="height: 100%;">
+                <!-- Image Slot -->
+                <VueDraggableResizable
+                    v-if="image"
+                    :x="image.x"
+                    :y="image.y"
+                    :w="image.width"
+                    :h="image.height"
+                    :onResize="onResize"
+                    :onDrag="onDrag"
+                    :parent="true"
+                    :active="true"
+                    :bounds="{ left: 0, top: 0, right: slotWidth, bottom: slotHeight }"
+                    :isResizable="true"
+                >
+                    <img :src="image.uri" alt="Collage Image" class="collage-image" />
+                </VueDraggableResizable>
+            </div>
         </div>
     </div>
 </template>
@@ -36,6 +35,19 @@
 <script setup>
 import VueDraggableResizable from 'vue-draggable-resizable';
 import { ref } from 'vue';
+
+const onResize = (handle, x, y, width, height) => {
+    image.value.width = width;
+    image.value.height = height;
+    image.value.x = x;
+    image.value.y = y;
+};
+
+
+const onDrag = (x, y) => {
+    image.value.x = x;
+    image.value.y = y;
+};
 
 const fileInput = ref(null);
 const image = ref(null);
