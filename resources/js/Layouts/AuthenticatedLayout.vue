@@ -150,3 +150,6 @@ const showingNavigationDropdown = ref(false);
         </div>
     </div>
 </template>
+<style>
+@import "vue-draggable-resizable/style.css";
+</style>
