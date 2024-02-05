@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h2>Collage Layout 1: Has one photo slot.</h2>
         <div v-if="uploading" class="progress-dialog bg-primary text-white">
             Uploading... {{ uploadProgress }}%
         </div>
@@ -77,8 +78,8 @@ const uploadImage = () => {
                     uri: response.data.imageUri,
                     x: 0,
                     y: 0,
-                    width: 100, // Set default width and height
-                    height: 100,
+                    width: 250, // Set default width and height
+                    height: 250,
                 };
             })
             .catch((error) => {

@@ -1,14 +1,11 @@
 <template>
     <div>
+        <h2>Collage Layout 2: Has two photo slots.</h2>
         <div v-if="uploading" class="progress-dialog bg-primary text-white">
             Uploading... {{ uploadProgress }}%
         </div>
         <div class="row p-0 m-0" style="height: 500px; width:100% !important; margin: auto; padding: 0 !important;">
             <div class="col-md-6 border-1 border-black m-0 p-0" style="height: 100%;">
-                <!-- Left Slot -->
-                <div v-if="uploading" class="progress-dialog bg-primary text-white">
-                    Uploading... {{ uploadProgress }}%
-                </div>
                 <div class="btn-group float-end" role="group" aria-label="Basic mixed styles example">
                     <input v-if="!leftImage" type="file" ref="leftFileInput" @change="uploadImage('left')" class="btn btn-outline-primary" accept="image/*" />
                     <button v-if="leftImage" type="button" class="btn btn-danger" @click="leftImage=null">Delete</button>
@@ -22,7 +19,6 @@
                     :w="leftImage.width"
                     :h="leftImage.height"
                     :parent="true"
-                    @click="active_slot = 1"
                     :onResize="onResizeLeft"
                     :onDrag="onDragLeft"
                     :bounds="{ left: 0, top: 0, right: slotWidth / 2, bottom: slotHeight }"
@@ -100,8 +96,8 @@ const uploadImage = (position) => {
                     uri: response.data.imageUri,
                     x: 0,
                     y: 0,
-                    width: 100, // Set default width and height
-                    height: 100,
+                    width: 250, // Set default width and height
+                    height: 250,
                 };
 
                 position === 'left' ? (leftImage.value = newImage) : (rightImage.value = newImage);
